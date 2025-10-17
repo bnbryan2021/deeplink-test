@@ -2,100 +2,77 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🎬 開啟 YouTube 影片</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🔥羊珞素全成分竟是食品級？揭開羊奶面膜真相（下）｜羊珞素到底是什麼？完整檢測內容曝光！  #羊珞素 #tklab</title>
 
-  <!-- 🧩 FB / LINE / IG 分享預覽設定 (Open Graph) -->
-  <meta property="og:title" content="🎬 點此開啟 YouTube 影片" />
-  <meta property="og:description" content="立即於 YouTube App 中觀看這支影片。" />
+  <!-- 靜態 OG：確保 FB 預覽顯示標題與縮圖 -->
+  <meta property="og:title" content="🔥羊珞素全成分竟是食品級？揭開羊奶面膜真相（下）｜羊珞素到底是什麼？完整檢測內容曝光！  #羊珞素 #tklab" />
+  <meta property="og:description" content="點此開啟 YouTube 觀看完整檢測內容與解析。" />
   <meta property="og:image" content="https://img.youtube.com/vi/73iL02p9iPo/maxresdefault.jpg" />
   <meta property="og:image:width" content="1280" />
   <meta property="og:image:height" content="720" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://bnbryan2021.github.io/deeplink-test/" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta property="og:site_name" content="YouTube 直開測試" />
 
   <style>
-    body {
-      font-family: system-ui, -apple-system, "Noto Sans TC", sans-serif;
-      margin: 0;
-      background: #fafafa;
-      color: #222;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      text-align: center;
-      padding: 0 16px;
-    }
-    img.thumbnail {
-      width: 90%;
-      max-width: 600px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
-    }
-    h1 {
-      font-size: 1.5rem;
-      line-height: 1.6;
-      margin-bottom: 24px;
-    }
-    a.btn {
-      background: #ff0000;
-      color: #fff;
-      text-decoration: none;
-      font-size: 1.2rem;
-      padding: 14px 28px;
-      border-radius: 10px;
-      display: inline-block;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-      transition: background 0.2s;
-    }
-    a.btn:hover { background: #cc0000; }
-    p {
-      margin-top: 25px;
-      font-size: 0.95rem;
-      color: #555;
-    }
-    a.link { color: #007aff; text-decoration: underline; }
+    :root { color-scheme: light dark; }
+    body{font-family:system-ui,-apple-system,"Noto Sans TC",Segoe UI,Roboto,Arial,sans-serif;margin:0;background:#fafafa;color:#222;min-height:100dvh;display:grid;place-items:center;text-align:center;padding:24px}
+    .wrap{max-width:720px}
+    img.thumb{width:100%;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,.12);margin-bottom:18px}
+    h1{font-size:clamp(18px,2.6vw,22px);margin:8px 0 16px;line-height:1.5}
+    .btn{display:inline-block;padding:12px 22px;border-radius:10px;background:#ff0000;color:#fff;text-decoration:none;font-weight:600;box-shadow:0 6px 14px rgba(0,0,0,.18);margin:6px}
+    .btn.secondary{background:#0f62fe}
+    .note{margin-top:12px;color:#666;font-size:.95rem}
+    .tip{display:none;margin-top:10px;font-size:.92rem;color:#555}
   </style>
 </head>
-
 <body>
-  <img class="thumbnail" src="https://img.youtube.com/vi/73iL02p9iPo/maxresdefault.jpg" alt="YouTube Thumbnail" />
-  <h1>若未自動開啟，請長按右上角「⋯」→ 選擇「在瀏覽器中開啟」</h1>
-  <a class="btn" id="openAppBtn" href="#">▶️ 開啟 YouTube</a>
-  <p>若未安裝 App，<a class="link" href="https://youtu.be/73iL02p9iPo">請改開網頁版</a></p>
+  <div class="wrap">
+    <img class="thumb" src="https://img.youtube.com/vi/73iL02p9iPo/maxresdefault.jpg" alt="YouTube 影片縮圖" />
+    <h1>🔥羊珞素全成分竟是食品級？揭開羊奶面膜真相（下）｜羊珞素到底是什麼？完整檢測內容曝光！  #羊珞素 #tklab</h1>
+    <a class="btn" id="openApp">▶️ 開啟 YouTube App</a>
+    <a class="btn secondary" id="openBrowser" href="#" style="display:none">🌐 在瀏覽器中開啟</a>
+    <div class="note">若未自動開啟，請點上方按鈕。</div>
+    <div class="tip" id="tip">您目前在 FB/IG/LINE 內建瀏覽器，系統限制無法直接開 App。請點「在瀏覽器中開啟」，或於右上角「⋯」選「在瀏覽器中開啟」。</div>
+  </div>
 
   <script>
-    const appLink = "vnd.youtube://youtu.be/73iL02p9iPo";
-    const webLink = "https://youtu.be/73iL02p9iPo";
-    const ua = navigator.userAgent.toLowerCase();
-    const isInAppBrowser = /fbav|instagram|line|messenger/.test(ua);
+    const VID = "73iL02p9iPo";
+    const WEB = `https://www.youtube.com/watch?v=${VID}&feature=youtu.be`;
+    const IOS_SCHEME = `vnd.youtube://www.youtube.com/watch?v=${VID}`;
+    const ANDROID_INTENT = `intent://www.youtube.com/watch?v=${VID}#Intent;scheme=https;package=com.google.android.youtube;S.browser_fallback_url=${encodeURIComponent(WEB)};end`;
 
-    function tryOpenApp() {
-      if (isInAppBrowser) {
-        // 在 FB / IG / LINE 內：不能自動開 App，直接導向網頁版
-        window.location.href = webLink;
+    const ua = navigator.userAgent.toLowerCase();
+    const inApp = /fbav|instagram|line|messenger/.test(ua);
+    const isAndroid = /android/.test(ua);
+    const isIOS = /iphone|ipad|ipod/.test(ua);
+
+    function openApp(){
+      if (inApp) {
+        document.getElementById('tip').style.display = 'block';
+        location.href = WEB;
+        return;
+      }
+      if (isAndroid) {
+        location.href = ANDROID_INTENT;
+      } else if (isIOS) {
+        const t = Date.now();
+        location.href = IOS_SCHEME;
+        setTimeout(()=>{ if(Date.now()-t < 1500) location.href = WEB; }, 1200);
       } else {
-        // 在一般瀏覽器：先試開 App，若失敗 1.2 秒後開網頁版
-        const start = Date.now();
-        window.location.href = appLink;
-        setTimeout(() => {
-          if (Date.now() - start < 1500) {
-            window.location.href = webLink;
-          }
-        }, 1200);
+        location.href = WEB;
       }
     }
 
-    // 頁面載入後自動嘗試開啟
-    window.onload = tryOpenApp;
-    // 同時也保留按鈕讓使用者手動重試
-    document.getElementById("openAppBtn").addEventListener("click", tryOpenApp);
+    if (inApp) {
+      const btn = document.getElementById('openBrowser');
+      btn.style.display = 'inline-block';
+      btn.addEventListener('click', (e)=>{ e.preventDefault(); window.open(WEB, '_blank'); });
+      document.getElementById('tip').style.display = 'block';
+    }
+
+    window.addEventListener('load', openApp);
+    document.getElementById('openApp').addEventListener('click', openApp);
   </script>
 </body>
 </html>
-
