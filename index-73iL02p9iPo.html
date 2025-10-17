@@ -1,67 +1,78 @@
-<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>🔥羊珞素全成分竟是食品級？揭開羊奶面膜真相（下）｜羊珞素到底是什麼？完整檢測內容曝光！  #羊珞素 #tklab</title>
+<script>
+  // 這支影片（單頁版）
+  const VID = "73iL02p9iPo";
 
-  <!-- Open Graph：讓 FB/LINE/IG 預覽顯示正確標題與縮圖（靜態，無 JS 依賴） -->
-  <meta property="og:title" content="🔥羊珞素全成分竟是食品級？揭開羊奶面膜真相（下）｜羊珞素到底是什麼？完整檢測內容曝光！  #羊珞素 #tklab" />
-  <meta property="og:description" content="點此開啟 YouTube 觀看完整檢測內容與解析。" />
-  <meta property="og:image" content="https://img.youtube.com/vi/73iL02p9iPo/maxresdefault.jpg" />
-  <meta property="og:image:width" content="1280" />
-  <meta property="og:image:height" content="720" />
-  <meta property="og:type" content="website" />
-  <meta name="twitter:card" content="summary_large_image" />
+  // Web 版備援
+  const WEB = `https://www.youtube.com/watch?v=${VID}&feature=youtu.be`;
 
-  <style>
-    :root { color-scheme: light dark; }
-    body{
-      font-family: system-ui,-apple-system,"Noto Sans TC",Segoe UI,Roboto,Arial,sans-serif;
-      margin:0; background:#fafafa; color:#222;
-      min-height:100dvh; display:grid; place-items:center; text-align:center; padding:24px;
-    }
-    .wrap{max-width:720px}
-    img.thumb{width:100%; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,.12); margin-bottom:18px}
-    h1{font-size:clamp(18px,2.6vw,22px); margin:8px 0 16px; line-height:1.5}
-    .btn{
-      display:inline-block; padding:12px 22px; border-radius:10px;
-      background:#ff0000; color:#fff; text-decoration:none; font-weight:600;
-      box-shadow:0 6px 14px rgba(0,0,0,.18);
-    }
-    .note{margin-top:14px; color:#666; font-size:.95rem}
-  </style>
-</head>
-<body>
-  <div class="wrap">
-    <img class="thumb" src="https://img.youtube.com/vi/73iL02p9iPo/maxresdefault.jpg" alt="YouTube 影片縮圖" />
-    <h1>🔥羊珞素全成分竟是食品級？揭開羊奶面膜真相（下）｜羊珞素到底是什麼？完整檢測內容曝光！  #羊珞素 #tklab</h1>
-    <a class="btn" id="open">▶️ 開啟 YouTube</a>
-    <div class="note">若未自動開啟，請點上方按鈕；在 FB/LINE 內建瀏覽器會改為開啟網頁版。</div>
-  </div>
+  // iOS 可能支援的多種 scheme（不同版本/瀏覽器會吃不同寫法）
+  const IOS_SCHEMES = [
+    `youtube://www.youtube.com/watch?v=${VID}`,
+    `youtube://watch?v=${VID}`,
+    `vnd.youtube://www.youtube.com/watch?v=${VID}`,
+    `vnd.youtube://watch/${VID}`
+  ];
 
-  <script>
-    // 固定這支影片（方案 B：一支片一個檔）
-    const VID = "73iL02p9iPo";
-    const WEB = `https://www.youtube.com/watch?v=${VID}&feature=youtu.be`;
-    const APP = `vnd.youtube://www.youtube.com/watch?v=${VID}`;
+  // Android 用 intent（成功率最高，且自帶 fallback_url）
+  const ANDROID_INTENT =
+    `intent://www.youtube.com/watch?v=${VID}` +
+    `#Intent;scheme=https;package=com.google.android.youtube;` +
+    `S.browser_fallback_url=${encodeURIComponent(WEB)};end`;
 
-    const ua = navigator.userAgent.toLowerCase();
-    const inApp = /fbav|instagram|line|messenger/.test(ua);
+  // UA 判斷
+  const ua = navigator.userAgent.toLowerCase();
+  const inApp = /fbav|instagram|line|messenger/.test(ua);
+  const isAndroid = /android/.test(ua);
+  const isIOS = /iphone|ipad|ipod/.test(ua);
 
-    function go(){
-      if(inApp){
-        location.href = WEB; // 內建瀏覽器無法直開 App → 直接開網頁版
-      }else{
-        const t = Date.now();
-        location.href = APP; // 嘗試叫起 App
-        setTimeout(()=>{ if(Date.now()-t < 1500) location.href = WEB; }, 1200); // 失敗就回網頁版
-      }
+  // 成功開 App 時，頁面會變不可見；用這點避免誤觸發 fallback
+  let opened = false;
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) opened = true;
+  });
+
+  function openApp() {
+    if (inApp) {
+      // 內建瀏覽器無法直開 App：直接開網頁版
+      location.href = WEB;
+      return;
     }
 
-    // 載入即嘗試；同時保留按鈕
-    window.addEventListener('load', go);
-    document.getElementById('open').addEventListener('click', go);
-  </script>
-</body>
-</html>
+    if (isAndroid) {
+      // Android：直接丟 intent
+      location.href = ANDROID_INTENT;
+      return;
+    }
+
+    if (isIOS) {
+      // iOS：依序嘗試多種 scheme，並設置保險 fallback
+      let i = 0;
+
+      const tryNext = () => {
+        if (opened || i >= IOS_SCHEMES.length) return;
+        location.href = IOS_SCHEMES[i++];
+        // 每 700ms 嘗試下一種寫法，最多嘗試 4 種
+        setTimeout(() => { if (!opened) tryNext(); }, 700);
+      };
+
+      // 最終備援：1.8s 後還沒成功就回網頁版
+      setTimeout(() => {
+        if (!opened) location.href = WEB;
+      }, 1800);
+
+      tryNext();
+      return;
+    }
+
+    // 其他平台：直接開網頁版
+    location.href = WEB;
+  }
+
+  // 載入就嘗試一次；同時綁定按鈕重試（需要的話）
+  window.addEventListener('load', () => {
+    // 某些瀏覽器會限制非使用者手勢自動開啟，保留自動嘗試 + 手動按鈕
+    openApp();
+    const btn = document.getElementById('open') || document.getElementById('openApp');
+    if (btn) btn.addEventListener('click', (e) => { e.preventDefault(); openApp(); });
+  });
+</script>
